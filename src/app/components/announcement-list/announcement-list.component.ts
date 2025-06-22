@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
+import { RequestFormComponent } from '../request-form/request-form.component';
 
 type AnnouncementStatus = 'AVAILABLE' | 'CANCELED' | 'COMPLETE';
 
@@ -66,10 +67,10 @@ export class AnnouncementListComponent implements OnInit {
       return 'success';
     case 'CANCELED':
       return 'danger';
-    case 'COMPLETED':
-      return 'secondary';
-    default:
+    case 'COMPLETE':
       return 'primary';
+    default:
+      return 'secondary';
   }
 }
 
@@ -106,13 +107,14 @@ export class AnnouncementListComponent implements OnInit {
     }
   }
 
-  demandAnnouncement(id: number): void {
-    this.announcementService.demandAnnouncement(id).subscribe({
-      next: () => {
-        this.loadAnnouncements();
-        this.snackBar.open('Demand placed successfully', 'Close', { duration: 3000 });
-      },
-      error: () => this.showError('Failed to place demand')
+  openRequestDialog(announcementId: number): void {
+    const dialogRef = this.dialog.open(RequestFormComponent, {
+      width: '500px',
+      data: { announcementId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) this.loadAnnouncements();
     });
   }
 
