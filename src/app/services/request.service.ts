@@ -36,7 +36,11 @@ export class RequestService {
   }
 
   updateRequestStatus(id: number, status: string): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/${id}/status`, { status });
+    return this.http.put(`${this.apiUrl}/updateStatus/${id}`, { status });
+  }
+
+  getRequestsByAnnouncement(announcementId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/requestsByAnnouncementId/${announcementId}`);
   }
 
   deleteRequest(id: number): Observable<void> {
