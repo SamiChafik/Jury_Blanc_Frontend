@@ -47,7 +47,7 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value).subscribe({
         next: () => {
           this.snackBar.open('Login successful', 'Close', { duration: 3000 });
-          this.router.navigate(['/events']);
+          this.router.navigate(['/announcement']);
         },
         error: () => {
           this.snackBar.open('Invalid credentials', 'Close', { duration: 3000 });
