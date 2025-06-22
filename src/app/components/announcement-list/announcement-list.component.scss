@@ -1,0 +1,88 @@
+.container {
+  padding: 20px;
+}
+
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 8px;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+
+  .card-header {
+    background-color: rgba(0,0,0,0.03);
+    border-bottom: 1px solid rgba(0,0,0,0.125);
+  }
+
+  .card-title {
+    font-weight: 600;
+    color: #3f51b5;
+  }
+
+  mat-icon {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+    vertical-align: middle;
+  }
+}
+
+.badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+
+  &.text-bg-success {
+    background-color: #28a745;
+  }
+
+  &.text-bg-warning {
+    background-color: #ffc107;
+    color: #212529;
+  }
+
+  &.text-bg-secondary {
+    background-color: #6c757d;
+  }
+}
+
+button[mat-raised-button] {
+  mat-icon {
+    margin-right: 8px;
+  }
+}
+
+.status-menu-button {
+  color: #d4a406;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+}
+
+.badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+
+  &.text-bg-AVAILABLE {
+    background-color: #28a745;
+    color: white;
+  }
+
+  &.text-bg-CANCELED {
+    background-color: #ffc107;
+    color: #212529;
+  }
+
+  &.text-bg-COMPLETED {
+    background-color: #6c757d;
+    color: white;
+  }
+}
