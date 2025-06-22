@@ -22,6 +22,19 @@ export class RequestService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
+  getSenderRequests(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/senderRequests`);
+  }
+
+  updateRequest(id: number, requestData: {
+    dimensions?: string;
+    weight?: string;
+    type?: string;
+    announcementId?: number;
+  }): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, requestData);
+  }
+
   updateRequestStatus(id: number, status: string): Observable<any> {
     return this.http.patch(`${this.apiUrl}/${id}/status`, { status });
   }
