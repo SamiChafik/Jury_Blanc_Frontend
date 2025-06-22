@@ -12,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { RequestFormComponent } from '../request-form/request-form.component';
+import { AuthService } from '../../services/auth.service';
 
 type AnnouncementStatus = 'AVAILABLE' | 'CANCELED' | 'COMPLETE';
 
@@ -34,6 +35,8 @@ type AnnouncementStatus = 'AVAILABLE' | 'CANCELED' | 'COMPLETE';
 export class AnnouncementListComponent implements OnInit {
   announcements: Announcement[] = [];
   statusOptions: AnnouncementStatus[] = ['AVAILABLE', 'CANCELED', 'COMPLETE'];
+  currentUser: any = null;
+
 
   displayedColumns: string[] = [
     'departure',
@@ -47,11 +50,20 @@ export class AnnouncementListComponent implements OnInit {
   constructor(
     private announcementService: AnnouncementService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.loadAnnouncements();
+
+    this.currentUser = this.authService.getUser();
+
+    if (this.authService.userUpdated$) {
+      this.authService.userUpdated$.subscribe(() => {
+        this.currentUser = this.authService.getUser();
+      });
+    }
   }
 
   loadAnnouncements(): void {
