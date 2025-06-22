@@ -8,6 +8,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
+import { EditProfileComponent } from '../edit-profile/edit-profile.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -19,7 +21,8 @@ import { MatDialog } from '@angular/material/dialog';
     MatButtonModule,
     RouterLink,
     RouterLinkActive,
-    MatMenuModule
+    MatMenuModule,
+    MatIconModule
   ]
 })
 export class NavbarComponent implements OnInit {
@@ -28,8 +31,10 @@ export class NavbarComponent implements OnInit {
 
   constructor(
       public authService: AuthService,
+      private userService: UserService,
       private router: Router,
-      private snackBar: MatSnackBar
+      private snackBar: MatSnackBar,
+      private dialog: MatDialog
     ) {}
 
     ngOnInit(): void {
@@ -42,7 +47,31 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  openEditProfile(): void {
+    const dialogRef = this.dialog.open(EditProfileComponent, {
+      width: '400px',
+      data: { user: this.currentUser }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.userService.updateUser(this.currentUser.id, result).subscribe({
+          next: (updatedUser) => {
+            this.currentUser = updatedUser;
+            this.snackBar.open('Profile updated successfully', 'Close', {
+              duration: 3000
+            });
+          },
+          error: () => {
+            this.snackBar.open('Failed to update profile', 'Close', {
+              duration: 3000,
+              panelClass: ['error-snackbar']
+            });
+          }
+        });
+      }
+    });
+  }
 
   logout() {
     this.authService.removeAuthData();

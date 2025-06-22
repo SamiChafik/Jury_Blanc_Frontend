@@ -1,21 +1,23 @@
 <nav *ngIf="authService.isAuthenticated" class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/">My App</a>
+    <a class="navbar-brand" routerLink="/">Delivery Match</a>
     <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div [class.collapse]="isMenuCollapsed" class="navbar-collapse">
       <ul class="navbar-nav me-auto">
+        @if (authService.isAuthenticated()) {
         <li class="nav-item">
           <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/announcement" routerLinkActive="active">Announcement List</a>
         </li>
-        @if (authService.isAuthenticated() && currentUser?.role === 'SENDER') {
+          @if (currentUser?.role === 'SENDER') {
         <li class="nav-item">
           <a class="nav-link" routerLink="/requestlist" routerLinkActive="active">My Requests</a>
         </li>
+          }
         }
 
         @if (authService.isAuthenticated() && currentUser?.role === 'ADMIN') {
@@ -31,7 +33,26 @@
         }
       </ul>
       <div class="d-flex">
-        <button mat-raised-button color="warn" (click)="logout()">Logout</button>
+        @if (!authService.isAuthenticated()) {
+          <a mat-button routerLink="/register" routerLinkActive="active">S'inscrire</a>
+          <a mat-button routerLink="/login" routerLinkActive="active">Connexion</a>
+        } @else {
+          <a class="nav-link"routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">{{currentUser.name}}</a>
+          <!-- <p class="user-name"> {{currentUser.name}} </p> -->
+          <button mat-button [matMenuTriggerFor]="userMenu">
+            <mat-icon>account_circle</mat-icon>
+          </button>
+          <mat-menu #userMenu="matMenu">
+            <button mat-menu-item (click)="openEditProfile()">
+              <mat-icon>edit</mat-icon>
+              Edit Profile
+            </button>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>logout</mat-icon>
+              Déconnexion
+            </button>
+          </mat-menu>
+        }
       </div>
     </div>
   </div>
