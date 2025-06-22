@@ -1,0 +1,86 @@
+<div class="container mt-4">
+  <div *ngIf="groupedRequests.length > 0; else noRequests">
+    <div *ngFor="let group of groupedRequests" class="mb-5">
+      <mat-card class="mb-3">
+        <mat-card-header>
+          <h5 class="card-title">{{group.announcement.departure}} → {{group.announcement.final_destination}}</h5>
+        </mat-card-header>
+        <mat-card-content>
+          <h6 class="card-subtitle mb-3 text-muted">
+            <mat-icon>person</mat-icon> {{group.announcement.driverName || 'No driver assigned'}}
+          </h6>
+          <div class="d-flex align-items-center mb-2">
+            <mat-icon class="me-2">event</mat-icon>
+            <span>{{group.announcement.date | date:'mediumDate'}}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card *ngFor="let request of group.requests" class="mb-3">
+        <mat-card-content>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="d-flex align-items-center">
+                <mat-icon class="me-2">straighten</mat-icon>
+                <span>{{request.dimensions}}</span>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="d-flex align-items-center">
+                <mat-icon class="me-2">fitness_center</mat-icon>
+                <span>{{request.weight}} kg</span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="d-flex align-items-center">
+                <mat-icon class="me-2">inventory</mat-icon>
+                <span>{{request.type}}</span>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <span class="badge" [ngClass]="{
+                'bg-warning': request.status === 'WAITING',
+                'bg-success': request.status === 'ACCEPTED',
+                'bg-danger': request.status === 'REJECTED'
+              }">
+                {{request.status}}
+              </span>
+            </div>
+            <div class="col-md-2 text-end">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+
+              @if (authService.isAuthenticated() && currentUser?.role === 'SENDER') {
+                <button mat-menu-item (click)="editRequest(request)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+              }
+                <!-- <mat-menu>
+                  <button mat-menu-item *ngFor="let status of statusOptions"
+                          (click)="updateStatus(request.id, status)">
+                    <span>Mark as {{status}}</span>
+                  </button>
+                </mat-menu> -->
+                <button mat-menu-item (click)="deleteRequest(request.id)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <ng-template #noRequests>
+    <mat-card class="text-center p-4">
+      <mat-icon class="empty-icon">inbox</mat-icon>
+      <h3 class="mt-3">No Requests Available</h3>
+      <p class="text-muted">There are currently no transport requests to display</p>
+    </mat-card>
+  </ng-template>
+</div>
