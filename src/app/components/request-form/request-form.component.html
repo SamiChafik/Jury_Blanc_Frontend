@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>Transport Request</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="requestForm" class="row g-3">
+    <div class="col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Dimensions (L×W×H)</mat-label>
+        <input matInput formControlName="dimensions" placeholder="e.g. 2×1.5×1 meters" required>
+        <mat-error>Dimensions are required</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Total Weight</mat-label>
+        <input matInput type="number" formControlName="weight" placeholder="In kilograms" required>
+        <mat-error>Weight is required</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Cargo Type</mat-label>
+        <input matInput formControlName="type" placeholder="e.g. Furniture, Electronics" required>
+        <mat-error>Cargo type is required</mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button
+          color="primary"
+          (click)="onSubmit()"
+          [disabled]="!requestForm.valid">
+    <mat-icon>send</mat-icon> Submit Request
+  </button>
+</mat-dialog-actions>
