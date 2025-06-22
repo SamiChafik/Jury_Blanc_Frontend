@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { RequestFormComponent } from '../request-form/request-form.component';
 import { AuthService } from '../../services/auth.service';
+import { AnnouncementRequestsComponent } from '../announcement-requests/announcement-requests.component';
 
 type AnnouncementStatus = 'AVAILABLE' | 'CANCELED' | 'COMPLETE';
 
@@ -74,17 +75,17 @@ export class AnnouncementListComponent implements OnInit {
   }
 
   getStatusClass(status: string): string {
-  switch(status) {
-    case 'AVAILABLE':
-      return 'success';
-    case 'CANCELED':
-      return 'danger';
-    case 'COMPLETE':
-      return 'primary';
-    default:
-      return 'secondary';
+    switch(status) {
+      case 'AVAILABLE':
+        return 'success';
+      case 'CANCELED':
+        return 'danger';
+      case 'COMPLETE':
+        return 'primary';
+      default:
+        return 'secondary';
+    }
   }
-}
 
   openCreateDialog(): void {
       const dialogRef = this.dialog.open(AnnouncementFormComponent, {
@@ -127,6 +128,13 @@ export class AnnouncementListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) this.loadAnnouncements();
+    });
+  }
+
+  openRequestsDialog(announcementId: number): void {
+    this.dialog.open(AnnouncementRequestsComponent, {
+      width: '900px',
+      data: { announcementId }
     });
   }
 

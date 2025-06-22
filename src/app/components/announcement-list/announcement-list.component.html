@@ -23,6 +23,10 @@
               <mat-icon>edit</mat-icon>
             </button>
 
+            <button mat-icon-button color="accent" (click)="openRequestsDialog(announcement.id)">
+              <mat-icon>list_alt</mat-icon>
+            </button>
+
             @if (currentUser?.role === 'DRIVER') {
               <button mat-icon-button [matMenuTriggerFor]="statusMenu" class="status-menu-button">
                 <mat-icon>swap_vert</mat-icon>
