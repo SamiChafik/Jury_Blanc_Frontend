@@ -1,0 +1,35 @@
+.table-responsive {
+  overflow-x: auto;
+}
+
+.mat-elevation-z8 {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+
+  &.bg-warning {
+    background-color: #ffc107;
+    color: #212529;
+  }
+
+  &.bg-success {
+    background-color: #28a745;
+    color: white;
+  }
+
+  &.bg-danger {
+    background-color: #dc3545;
+    color: white;
+  }
+}
+
+mat-form-field {
+  min-width: 120px;
+}
