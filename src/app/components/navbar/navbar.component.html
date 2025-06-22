@@ -10,11 +10,25 @@
           <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/create-announcement" routerLinkActive="active">Create Announcement</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" routerLink="/announcement" routerLinkActive="active">Announcement List</a>
         </li>
+        @if (authService.isAuthenticated() && currentUser?.role === 'SENDER') {
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/requestlist" routerLinkActive="active">My Requests</a>
+        </li>
+        }
+
+        @if (authService.isAuthenticated() && currentUser?.role === 'ADMIN') {
+          <a mat-button [matMenuTriggerFor]="dashboard">Tableau de bord</a>
+          <mat-menu #dashboard="matMenu" class="vertical-menu">
+            <button mat-menu-item routerLink="/users" routerLinkActive="active">
+              <span>Utilisateurs</span>
+            </button>
+            <button mat-menu-item routerLink="/requestlist" routerLinkActive="active">
+              <span>Requests</span>
+            </button>
+          </mat-menu>
+        }
       </ul>
       <div class="d-flex">
         <button mat-raised-button color="warn" (click)="logout()">Logout</button>
